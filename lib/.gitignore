@@ -1,1 +1,31 @@
-/build
+# Diretórios e arquivos do sistema
+/.idea/
+/.gradle/
+/local.properties
+/.cxx/
+/captures/
+/.externalNativeBuild/
+
+# Dependências e builds
+/.gradle/
+/.gradle/
+/build/
+/out/
+/*.iml
+
+# Configuração do Android Studio
+/.settings/
+/.loadpath
+
+# Arquivos gerados do Kotlin e Compose
+/**/*.kotlin_metadata
+/**/*.kotlin_module
+/**/*.kotlin_builtins
+/**/*.compose_cache
+
+# Ignorar tudo dentro da pasta gradle
+/gradle/
+
+# Ignorar todos os arquivos .bat e .sh
+*.bat
+*.sh
