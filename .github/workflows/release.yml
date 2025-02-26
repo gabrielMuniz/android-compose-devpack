@@ -1,0 +1,41 @@
+name: Publish Android Library
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+jobs:
+  publish:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Configurar permissões do Gradle
+        run: chmod +x gradlew
+
+      - name: Executar build da biblioteca
+        run: ./gradlew build
+
+      - name: Publicar versão da biblioteca
+        run: ./gradlew publish
+        env:
+          ORG_GRADLE_PROJECT_mavenUsername: ${{ secrets.MAVEN_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenPassword: ${{ secrets.MAVEN_PASSWORD }}
+
+      - name: Criar tag para a versão
+        run: |
+          VERSION=$(./gradlew properties | grep "version:" | awk '{print $2}')
+          git tag v$VERSION
+          git push origin v$VERSION
